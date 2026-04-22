@@ -1,0 +1,25 @@
+# 测试SonarQube代码质量扫描专用示例
+import os
+import pickle
+
+# 1. 硬编码密码（高危安全漏洞）
+password = "admin123456"
+
+def unsafe_function(user_input):
+    # 2. 命令注入高危漏洞
+    os.system(f"ping {user_input}")
+
+    # 3. 反序列化高危安全风险
+    data = pickle.loads(user_input)
+
+    # 4. 未处理异常、空指针风险
+    result = 10 / 0
+
+    # 5. 无用变量（代码异味）
+    unused_var = 666
+
+# 永远不会走到的死代码
+if 1 > 2:
+    print("无效冗余代码")
+
+unsafe_function("127.0.0.1")
