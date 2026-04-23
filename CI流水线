@@ -1,0 +1,33 @@
+# GitHub CI 持续集成流水线
+name: CI持续构建+Sonar代码质检
+
+# 什么时候触发：提交代码、合并PR都自动跑
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # 1.拉取代码
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # 2.如果你是Java项目就开下面，Python/前端删掉这段
+      # - name: JDK环境
+      #   uses: actions/setup-java@v4
+      #   with:
+      #     java-version: '17'
+      #     distribution: temurin
+
+      # 3.SonarQube 代码质量扫描（你的云端刚好能用）
+      - name: SonarCloud 代码检测
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
