@@ -1,7 +1,7 @@
 """
 Python CI Demo - Flask Web Application
 Author: xuyuan9817
-Version: 2.0.0
+Version: 2.0.1
 """
 from flask import Flask, jsonify, request
 from datetime import datetime
@@ -24,7 +24,7 @@ def index():
     """Home page"""
     return jsonify(
         message="Hello from Python CI Demo!",
-        version="2.0.0",
+        version="2.0.1",
         timestamp=datetime.utcnow().isoformat(),
     )
 
@@ -39,7 +39,7 @@ def health():
 def version():
     """Version information"""
     return jsonify(
-        version="2.0.0",
+        version="2.0.1",
         author="xuyuan9817",
         python=sys.version,
         platform=platform.system(),
@@ -77,6 +77,12 @@ def status():
         tasks_done=sum(1 for t in TASKS if t["done"]),
         tasks_pending=sum(1 for t in TASKS if not t["done"]),
     )
+
+
+@app.route("/greeting/<name>")
+def greeting(name):
+    """Personalized greeting"""
+    return jsonify(message=f"Hello, {name}! Welcome to CI Demo!", name=name)
 
 
 if __name__ == "__main__":
